@@ -77,6 +77,11 @@ def total_seconds(total_time):
     total_sec = seconds + minutes #+ hours
     rate = keyrate(total_sec)
     accRate = accuracy()
+    fn = "Field Name: %s ;" %username
+    per = " Percentage: %.2f ; " %accRate
+    r = "Rate: %.2f" %rate
+    s = fn + per + r
+    print s
     users.append({'Field Name':username, 'Percentage':accRate, 'Rate':rate})
 
 
