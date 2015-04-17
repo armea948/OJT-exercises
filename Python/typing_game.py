@@ -28,7 +28,7 @@ def keyrate(total_sec):
     #print ("l", l)
     ts = float(total_sec)
     #print ("ts", ts)
-    time_rate = l / ts
+    time_rate = (l / ts)*60
     #print ("RATE: ", time_rate)
     return time_rate
 
