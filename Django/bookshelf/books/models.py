@@ -11,7 +11,7 @@ class Author(models.Model):
         return "%s, %s" % (self.last_name, self.first_name)
 
     def __unicode__(self):
-        return u'%s $s' % (self.first_name, self.last_name)
+        return u'%s %s' % (self.first_name, self.last_name)
 
 class Book(models.Model):
     title = models.CharField(max_length=100)
