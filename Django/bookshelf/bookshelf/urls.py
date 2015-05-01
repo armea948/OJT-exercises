@@ -1,7 +1,7 @@
 from django.conf.urls import patterns, include, url
 
 from django.contrib import admin
-from .views import authors_list
+from .views import authors_list, authors_detail
 admin.autodiscover()
 #from .views import
 urlpatterns = patterns('bookshelf.views',
@@ -11,5 +11,6 @@ urlpatterns = patterns('bookshelf.views',
 
     url(r'^admin/', include(admin.site.urls)),
     url(r'^authors/$', authors_list),
+    url(r'^authors/(?P<num>\d{1,2})/$', authors_detail),
     #url(r'^time/$', current_datetime),
 )

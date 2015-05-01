@@ -30,7 +30,7 @@
 
 {% block content %}
 {% for items in authors %}
-<p> {{ items.get_full_name }}.</p>
+<p> <li> <a href = "/authors/{{items.get_id}}/"> {{ items.get_full_name }}. </a></li></p>
 {% endfor %}
 {% endblock %}
 </head>
