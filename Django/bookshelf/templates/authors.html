@@ -1,0 +1,37 @@
+
+{% comment %}
+<!--
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>The current time</title>
+</head>
+<body>
+    <h1>My helpful timestamp site</h1>
+    <p>It is now {{ current_date }}.</p>
+    <hr>
+    <p>Thanks for visiting my site.</p>
+</body>
+</html>
+-->
+{% endcomment %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Author List</title>
+
+
+
+{% block title %}Lists of Authors{% endblock %}
+
+{% block content %}
+{% for items in authors %}
+<p> {{ items.get_full_name }}.</p>
+{% endfor %}
+{% endblock %}
+</head>
+<body>
