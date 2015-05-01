@@ -29,6 +29,7 @@ class Book(models.Model):
     edition = models.IntegerField(default=0)
     isbn = models.CharField(max_length=40)
 
+
     def get_title(self):
         return "%s" % (self.title)
 
