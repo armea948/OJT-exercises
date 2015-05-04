@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Author Details</title>
+
+
+
+{% block title %}{{ authors.get_full_name }}{% endblock %}
+
+{% block content %}
+<p> Birthday: {{ authors.get_bday }} </p>
+<p> Biography: {{ authors.get_bio }}. </p>
+<p> Book List: </p>
+<p> ========================================================================= </p>
+{% for items in books %}
+<p> Title: {{ items.get_title }} </p>
+<p> Publication Date: {{ items.get_pubDate }}</p>
+<p> Edition: {{ items.get_edition }}</p>
+<p> ISBN: {{ items.get_isbn }}</p>
+<p> ========================================================================= </p>
+{% endfor %}
+{% endblock %}
+
+</head>
+<body>
