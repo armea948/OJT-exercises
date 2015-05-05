@@ -2,6 +2,7 @@ from django.db import models
 from django.utils import timezone
 import datetime
 
+
 class Publisher(models.Model):
     name = models.CharField(max_length=30)
     address = models.CharField(max_length=50)

@@ -1,5 +1,6 @@
 from django.http import HttpResponse
 import datetime
+
 #from django.template import Context
 #from django.template.loader import get_template
 from django.shortcuts import render
@@ -30,3 +31,4 @@ def hello(request, num=None):
     if num:
         message = "Hello World, the number is {}".format(num)
     return HttpResponse(message)
+

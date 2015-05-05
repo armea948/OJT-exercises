@@ -19,4 +19,5 @@ urlpatterns = patterns('mysite.views',
     url(r'^admin/polls/poll/$', Poll),
     url(r'^time/$', current_datetime),
     url(r'^time/plus/(\d{1,2})/$', hours_ahead),
+    url(r'^books/', include('books.urls')),
 )
