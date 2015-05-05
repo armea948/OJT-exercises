@@ -12,6 +12,6 @@ urlpatterns = patterns('',
     url(r'^publisher/$', views.addPublisher),
     url(r'^book/$', views.addBook),
     url(r'^login/$', views.my_view),
-    url(r'^home/$', views.my_view),
-    #url(r'^logout/$', views.logout_view),
+    url(r'^home/$', views.home),
+    url(r'^logout/$', views.logout_view),
 )

@@ -1,58 +1,9 @@
-#from django.shortcuts import render
-#from django.http import HttpResponse
-#from .models import Book
-#def search_form(request):
-#    return render(request, 'search_form.html')
-
-# def search(request):
-#     if 'q' in request.GET and request.GET['q']:
-#         message = 'You searched for: %r' % request.GET['q']
-#     else:
-#         message = 'You submitted an empty form.'
-#     return HttpResponse(message)
-
-# def search(request):
-#     if 'q' in request.GET and request.GET['q']:
-#         q = request.GET['q']
-
-#         books = Book.objects.filter(title__icontains=q)
-#         return render(request,
-#             'search_results.html',
-#             {'books': books, 'query': q, 'message': message},
-#             )
-#     else:
-#         return render(request, 'search_form.html', {'error': True})
-
-# from django.shortcuts import render
-# from django.http import HttpResponse
-
-# from .models import Book
-
-# def search_form(request):
-#     return render(request, 'search_form.html')
-
-
-# def search(request):
-#   if 'q' in request.GET and request.GET['q']:
-#     message = 'You searched for: %s' % request.GET['q']
-#     if 'q' in request.GET and request.GET['q']:
-#         q = request.GET['q']
-#         books = Book.objects.filter(title__icontains=q)
-#         return render(
-#             request,
-#             'search_results.html',
-#             {'books': books, 'query': q, 'message': message},
-#         )
-#   else:
-#     message = 'You submitted an empty form.'
-#     return render(request, 'search_form.html', {'error': True, 'message': message})
-
-from django.shortcuts import render#, redirect
+from django.shortcuts import render, redirect
 from books.models import Book, Author, Publisher
 from books.forms import ContactForm, SignUp, AuthorForm, PublisherForm, BookForm, LoginForm
-from django.http import HttpResponse#, HttpResponseRedirect
+from django.http import HttpResponse
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login#, logout
+from django.contrib.auth import authenticate, login, logout
 
 def search(request):
     errors = [] #False
@@ -73,9 +24,7 @@ def search(request):
 def contact(request):
         if request.method == 'POST':  # If the form has been submitted...
                 form = ContactForm(request.POST)  # A form bound to the POST data
-                if form.is_valid():  # All validation rules pass
-                        # Process the data in form.cleaned_data
-                        # ...
+                if form.is_valid():
                         subject = form.cleaned_data['subject']
                         message= form.cleaned_data['message']
                         sender = form.cleaned_data['sender']
@@ -83,11 +32,6 @@ def contact(request):
                         recipients = ['kdlim948@yahoo.com']
                         if cc_myself:
                             recipients.append(sender)
-                        print ("subject:", subject)
-                        print ("message:", message)
-                        print ("sender:", sender)
-                        print ("recipients",recipients)
-                        #send_mail(subject, message, sender, recipients)
                         return HttpResponse('Thanks')
         else:
                 form = ContactForm()  # An unbound form
@@ -143,7 +87,8 @@ def addAuthor(request):
             new_author.save()
 
             #return HttpResponse("Author Added")
-            return render(request, 'auth_users.html')
+            #return render(request, 'auth_users.html')
+            return redirect('/books/home/')
     else:
         form = AuthorForm()
     return render(request, 'author.html', {'form': form})
@@ -171,7 +116,8 @@ def addPublisher(request):
             new_publisher.save()
 
             #return HttpResponse("Publisher Added")
-            return render(request, 'auth_users.html')
+            #return render(request, 'auth_users.html')
+            return redirect('/books/home/')
     else:
         form = PublisherForm()
     return render(request, 'publisher.html', {'form': form})
@@ -194,46 +140,49 @@ def addBook(request):
                     new_book.authors.add(authors[i])
                 new_book.save()
                 #return HttpResponse("You have added a New Book.")
-                return render(request, 'auth_users.html')
+                #return render(request, 'auth_users.html')
+                return redirect('/books/home/')
         else:
             form = BookForm()
         return render(request,'book.html',{'form':form})
 
+def home(request):
+    return render(request, 'auth_users.html')
+
 def my_view(request):
     #logout(request)
     #if(request)
-    message = None
-
-    # if request.method == 'GET':
-    #     username = request.GET['username']
-    #     password = request.GET['password']
-    #     user = authenticate(username=username, password=password)
-    #     print ("GET: ",user)
-    #     return render(request, 'auth_users.html')
-
-    if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-        user = authenticate(username=username, password=password)
-        print user
-        form = LoginForm(request.POST)
-
-        if user is not None:
-            if user.is_active:
-                login(request, user)
-                message = "Success"
-                #return HttpResponseRedirect('/admin/')
-                return render(request, 'auth_users.html')
-            else:
-                message = "Account disabled"
-        else:
-            message = "Login invalid"
+    if request.user.is_authenticated():
+        return redirect('/books/home/')
     else:
-            form = LoginForm()
-    return render(request, 'login.html', {'form': form, 'message': message})
+        message = None
+        if request.method == 'POST':
 
-#def logout_view(request):
-    #logout(request)
+            username = request.POST['username']
+            password = request.POST['password']
+            user = authenticate(username=username, password=password)
+            print user
+            form = LoginForm(request.POST)
+
+            if user is not None:
+                if user.is_active:
+                    login(request, user)
+                    message = "Success"
+                    #return HttpResponseRedirect('/admin/')
+                    #return render(request, 'auth_users.html')
+                    return redirect('/books/home/')
+
+                else:
+                    message = "Account disabled"
+            else:
+                message = "Login invalid"
+        else:
+                form = LoginForm()
+        return render(request, 'login.html', {'form': form, 'message': message})
+
+def logout_view(request):
+    logout(request)
+    return redirect('/books/login')
     #form = LoginForm()
 
     #return render(request, 'login.html', {'form': form})
